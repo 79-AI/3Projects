@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ant Group — Investor Overview 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#2E7D52;--green-dark:#1a5c3a;--green-light:#E8F5EF;--green-mid:#5aab7a;
+  --coral:#E8472A;--coral-light:#FAECE7;
+  --gold:#C9973A;--gold-light:#fdf6e8;--gold-dark:#a07828;
+  --indigo:#4F46E5;--indigo-light:#EEF2FF;
+  --navy:#1a2e4a;
+  --gray-100:#f8f8f6;--gray-200:#f0eeea;--gray-300:#e2e0db;--gray-400:#b4b2a9;
+  --gray-600:#5f5e5a;--gray-800:#2c2c2a;
+  --text:#2c2c2a;--text-muted:#5f5e5a;--text-light:#888780;
+  --border:#e2e0db;--radius:12px;--radius-sm:6px;
+  --sidebar-w:250px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--gray-100);font-size:15px;line-height:1.6}
+a{color:var(--green);text-decoration:none}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;height:100vh;width:var(--sidebar-w);background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:200;overflow:hidden}
+.sidebar-head{padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.sidebar-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.95rem;color:var(--green);margin-bottom:.2rem}
+.sidebar-sub{font-size:11px;color:var(--text-light);margin-bottom:.75rem}
+.sidebar-nav{flex:1;overflow-y:auto;padding:.5rem 0}
+.sidebar-nav::-webkit-scrollbar{width:3px}
+.sidebar-nav::-webkit-scrollbar-thumb{background:var(--green-light)}
+.nav-section{padding:.4rem 1.25rem .2rem;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-light)}
+.sidebar-nav a{display:block;padding:.5rem 1.25rem;font-size:12.5px;color:var(--text-muted);text-decoration:none;border-left:3px solid transparent;transition:all .18s;line-height:1.4}
+.sidebar-nav a:hover,.sidebar-nav a.active{color:var(--green);background:var(--green-light);border-left-color:var(--green)}
+.sidebar-nav a.active{font-weight:600}
+.sidebar-footer{padding:.85rem 1.25rem;border-top:1px solid var(--border);font-size:11px;color:var(--text-light);flex-shrink:0}
+.nav-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);min-height:100vh}
+.content{max-width:960px;margin:0 auto;padding:2.5rem 1.75rem}
+.section{margin-bottom:4rem;scroll-margin-top:20px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 40%,var(--green-dark) 100%);color:#fff;padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.03)}
+.hero::after{content:"";position:absolute;bottom:-60px;left:-60px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.03)}
+.hero-ant{font-size:3rem;margin-bottom:.75rem;position:relative;z-index:1}
+.hero h1{font-size:2.8rem;font-weight:800;letter-spacing:-1.5px;margin-bottom:.4rem;position:relative;z-index:1}
+.hero-tagline{font-size:1.05rem;opacity:.8;margin-bottom:.5rem;position:relative;z-index:1;font-style:italic}
+.hero-meta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;position:relative;z-index:1;margin-top:1.5rem}
+.pill{padding:5px 16px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.3px}
+.pill-glass{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.pill-coral{background:var(--coral);color:#fff}
+.pill-gold{background:var(--gold);color:#fff}
+.pill-green{background:var(--green);color:#fff}
+
+/* SECTION HEADERS */
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:2rem;padding-bottom:.85rem;border-bottom:2px solid var(--green)}
+.sec-icon{font-size:1.4rem}
+.sec-title{font-size:1.15rem;font-weight:700;color:var(--green)}
+.sec-num{background:var(--green);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
+
+/* METRIC GRID */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:1.25rem}
+.metric{background:var(--green-light);border-radius:var(--radius);padding:1.1rem 1.25rem}
+.metric-label{font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+.metric-value{font-size:1.5rem;font-weight:700;color:var(--green);line-height:1.2}
+.metric-sub{font-size:12px;color:var(--green);margin-top:.3rem;opacity:.8}
+.metric.coral{background:var(--coral-light)}.metric.coral .metric-label,.metric.coral .metric-value,.metric.coral .metric-sub{color:var(--coral)}
+.metric.gold{background:var(--gold-light)}.metric.gold .metric-label,.metric.gold .metric-value,.metric.gold .metric-sub{color:var(--gold-dark)}
+.metric.indigo{background:var(--indigo-light)}.metric.indigo .metric-label,.metric.indigo .metric-value,.metric.indigo .metric-sub{color:var(--indigo)}
+.metric.dark{background:var(--navy);color:#fff}.metric.dark .metric-label,.metric.dark .metric-value,.metric.dark .metric-sub{color:#fff}.metric.dark .metric-label{opacity:.75}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:1rem}
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff}
+thead th{background:var(--green);color:#fff;padding:10px 14px;text-align:left;font-weight:600;font-size:12.5px}
+thead th.navy{background:var(--navy)}
+thead th.gold{background:var(--gold)}
+thead th.indigo{background:var(--indigo)}
+tbody td{padding:10px 14px;border-bottom:1px solid var(--gray-200);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even) td{background:var(--gray-100)}
+tbody tr:hover td{background:var(--green-light)}
+.td-g{font-weight:600;color:var(--green)}
+.td-c{font-weight:600;color:var(--coral)}
+.td-gold{font-weight:600;color:var(--gold-dark)}
+.td-indigo{font-weight:600;color:var(--indigo)}
+.td-bold{font-weight:700}
+
+/* HIGHLIGHT BOXES */
+.highlight{background:var(--green-light);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1rem;border-left:4px solid var(--green)}
+.highlight.coral{background:var(--coral-light);border-left-color:var(--coral)}
+.highlight.gold{background:var(--gold-light);border-left-color:var(--gold)}
+.highlight.indigo{background:var(--indigo-light);border-left-color:var(--indigo)}
+.highlight.navy{background:#e8edf5;border-left-color:var(--navy)}
+.highlight p{font-size:13.5px;line-height:1.65}
+.highlight strong{font-weight:700}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 12px;border-radius:12px;font-size:11.5px;font-weight:600;margin:2px}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-coral{background:var(--coral-light);color:var(--coral)}
+.badge-gold{background:var(--gold-light);color:var(--gold-dark)}
+.badge-indigo{background:var(--indigo-light);color:var(--indigo)}
+.badge-navy{background:#e8edf5;color:var(--navy)}
+
+/* INFO ROWS */
+.info-rows{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;margin-bottom:1rem}
+.info-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.7rem 1.1rem;border-bottom:1px solid var(--gray-200);font-size:13.5px;gap:1rem}
+.info-row:last-child{border-bottom:none}
+.info-row:nth-child(even){background:var(--gray-100)}
+.ir-label{color:var(--text-muted);flex-shrink:0;min-width:160px;font-size:13px}
+.ir-val{font-weight:600;text-align:right}
+
+/* =============================================
+   ECOSYSTEM DIAGRAM
+   ============================================= */
+.ecosystem{display:grid;grid-template-columns:1fr 80px 1fr;grid-template-rows:auto 60px auto;gap:0;align-items:center;margin:2rem 0}
+.eco-card{border-radius:var(--radius);padding:1.5rem;position:relative}
+.eco-card.ant{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;grid-column:1}
+.eco-card.wayflo{background:linear-gradient(135deg,#3730a3,var(--indigo));color:#fff;grid-column:3;grid-row:1}
+.eco-card.tho{background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#fff;grid-column:3;grid-row:3}
+.eco-center{grid-column:2;grid-row:1/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.eco-icon{font-size:2.2rem;margin-bottom:.5rem}
+.eco-name{font-size:1rem;font-weight:700;margin-bottom:.3rem}
+.eco-stage{font-size:11px;opacity:.8;margin-bottom:.75rem}
+.eco-points{list-style:none;padding:0}
+.eco-points li{font-size:12px;opacity:.9;padding:3px 0;padding-left:14px;position:relative;line-height:1.4}
+.eco-points li::before{content:"→";position:absolute;left:0;font-size:10px;opacity:.7}
+.eco-connector{width:2px;background:var(--border);height:100%;margin:0 auto}
+.eco-arrow{font-size:18px;color:var(--text-light)}
+.eco-group-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text-light);text-align:center;margin:.5rem 0}
+
+/* CONNECTION BADGES */
+.connection-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.5rem 0}
+.conn-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;border-top:3px solid var(--green)}
+.conn-card.wayflo{border-top-color:var(--indigo)}
+.conn-card.tho{border-top-color:var(--gold)}
+.conn-from{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-light);margin-bottom:.3rem}
+.conn-title{font-size:.88rem;font-weight:700;margin-bottom:.4rem}
+.conn-desc{font-size:12.5px;color:var(--text-muted);line-height:1.5}
+
+/* PROJECT CARDS (summary) */
+.proj-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:1.5rem}
+.proj-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.proj-card-head{padding:1.25rem 1.5rem;color:#fff}
+.proj-card-head.ant{background:linear-gradient(135deg,var(--green-dark),var(--green))}
+.proj-card-head.wayflo{background:linear-gradient(135deg,#3730a3,var(--indigo))}
+.proj-card-head.tho{background:linear-gradient(135deg,var(--gold-dark),var(--gold))}
+.proj-card-icon{font-size:1.8rem;margin-bottom:.5rem}
+.proj-card-name{font-size:1rem;font-weight:700;margin-bottom:.15rem}
+.proj-card-cat{font-size:11px;opacity:.8}
+.proj-card-body{padding:1.25rem 1.5rem}
+.proj-stat{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--gray-200);font-size:13px}
+.proj-stat:last-child{border-bottom:none}
+.proj-stat-label{color:var(--text-muted)}
+.proj-stat-val{font-weight:700}
+
+/* FOUNDER SECTION */
+.founder-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;border-top:4px solid var(--coral)}
+.founder-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.founder-av{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--coral-light),var(--coral));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--coral)}
+.founder-name{font-size:1.2rem;font-weight:700}
+.founder-title{font-size:13px;color:var(--text-muted)}
+.founder-timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:1.25rem 0}
+.ftl-item{background:var(--gray-100);border-radius:var(--radius-sm);padding:1rem}
+.ftl-year{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+.ftl-desc{font-size:13px;color:var(--text-muted);line-height:1.5}
+.founder-quote{background:var(--navy);color:#fff;border-radius:var(--radius);padding:1.25rem 1.5rem;margin-top:1.25rem;font-size:.95rem;font-style:italic;line-height:1.7}
+
+/* CHART CONTAINERS */
+.chart-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
+.chart-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:1.25rem}
+.chart-sub{font-size:12px;color:var(--text-muted);margin-top:.5rem}
+.chart-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:1rem}
+
+/* INVESTMENT STRUCTURE */
+.holding-diagram{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:1rem}
+.holding-top{text-align:center;margin-bottom:2rem}
+.holding-box{display:inline-block;padding:1rem 2rem;background:var(--navy);color:#fff;border-radius:var(--radius);font-weight:700;font-size:1rem}
+.holding-investor{display:inline-block;padding:.75rem 1.5rem;background:var(--coral-light);color:var(--coral);border:2px dashed var(--coral);border-radius:var(--radius);font-weight:700;font-size:.9rem;margin-bottom:1.5rem}
+.holding-arrow-down{text-align:center;font-size:1.5rem;color:var(--text-light);margin:.5rem 0}
+.holding-subs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:1.5rem}
+.sub-box{border-radius:var(--radius);padding:1.1rem;text-align:center;color:#fff;font-weight:700;font-size:.9rem}
+.sub-box.ant{background:var(--green)}
+.sub-box.wayflo{background:var(--indigo)}
+.sub-box.tho{background:var(--gold)}
+.sub-box .sub-pct{font-size:1.2rem;font-weight:800;display:block;margin-bottom:.2rem}
+.sub-box .sub-name{font-size:.8rem;opacity:.9}
+.holding-lines{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:.5rem 0}
+.holding-line{text-align:center;font-size:20px;color:var(--text-light)}
+
+/* CAP TABLE */
+.captable{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1rem}
+.ct-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.ct-title{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:1rem}
+.ct-bar-row{margin-bottom:.85rem}
+.ct-bar-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:.3rem}
+.ct-bar-name{font-weight:600}
+.ct-bar-pct{font-weight:700;color:var(--green)}
+.ct-bar-pct.coral{color:var(--coral)}
+.ct-bar-pct.indigo{color:var(--indigo)}
+.ct-bar{height:10px;border-radius:5px;background:var(--gray-200)}
+.ct-bar-fill{height:100%;border-radius:5px}
+
+/* ROADMAP TABLE */
+.roadmap-table{width:100%;border-collapse:collapse;font-size:13px}
+.roadmap-table th{padding:10px 12px;background:var(--navy);color:#fff;text-align:left;font-size:11.5px;font-weight:700}
+.roadmap-table td{padding:10px 12px;border-bottom:1px solid var(--gray-200);vertical-align:top;line-height:1.5}
+.roadmap-table tr:last-child td{border-bottom:none}
+.roadmap-table tr:nth-child(even) td{background:var(--gray-100)}
+.roadmap-table .year-col{font-weight:700;white-space:nowrap}
+.phase-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.pb-1{background:var(--green-light);color:var(--green)}
+.pb-2{background:var(--indigo-light);color:var(--indigo)}
+.pb-3{background:var(--coral-light);color:var(--coral)}
+
+/* RISK */
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1rem}
+.risk-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;border-left:4px solid var(--coral)}
+.risk-card.medium{border-left-color:var(--gold)}
+.risk-card.low{border-left-color:var(--green)}
+.risk-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem;flex-wrap:wrap;gap:.5rem}
+.risk-title{font-weight:700;font-size:.9rem}
+.risk-level{padding:3px 10px;border-radius:10px;font-size:10.5px;font-weight:700}
+.rl-high{background:var(--coral-light);color:var(--coral)}
+.rl-med{background:var(--gold-light);color:var(--gold-dark)}
+.rl-low{background:var(--green-light);color:var(--green)}
+.risk-body{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:.5rem}
+.risk-mit{font-size:12.5px;background:var(--green-light);border-radius:6px;padding:.4rem .8rem;color:var(--green-dark)}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,var(--navy),#1e3a5f);color:#fff;border-radius:var(--radius);padding:3rem 2rem;text-align:center;margin-top:2rem}
+.cta-box h2{font-size:1.8rem;font-weight:800;margin-bottom:.75rem}
+.cta-box p{opacity:.8;font-size:.95rem;margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7}
+.cta-asks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:2rem}
+.cta-ask{background:rgba(255,255,255,.1);border-radius:var(--radius);padding:1.25rem;border:1px solid rgba(255,255,255,.15)}
+.cta-ask-num{font-size:1.6rem;font-weight:800;margin-bottom:.3rem}
+.cta-ask-label{font-size:12px;opacity:.75}
+.cta-contact{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.cta-contact a{background:var(--green);color:#fff;padding:.75rem 1.75rem;border-radius:8px;font-weight:700;font-size:.9rem}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .proj-cards,.holding-subs,.cta-asks,.captable,.chart-row,.risk-grid,.connection-row{grid-template-columns:1fr}
+  .ecosystem{grid-template-columns:1fr;grid-template-rows:auto}
+  .eco-card.wayflo,.eco-card.tho{grid-column:1;grid-row:auto}
+  .eco-center{display:none}
+  .hero h1{font-size:2rem}
+  .content{padding:1.5rem 1rem}
+}
+@media print{.sidebar{display:none}.main{margin-left:0}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-head">
+    <div class="sidebar-logo">🐜 The Ant Group</div>
+    <div class="sidebar-sub">Investor Overview · Version 1 · May 2026</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <a href="#s1"><span class="nav-dot" style="background:var(--green)"></span>Ecosystem Map</a>
+    <a href="#s2"><span class="nav-dot" style="background:var(--coral)"></span>The Founder</a>
+    <div class="nav-section">3 Projects</div>
+    <a href="#s3"><span class="nav-dot" style="background:var(--green)"></span>🌿 The Ant Adventures</a>
+    <a href="#s4"><span class="nav-dot" style="background:var(--indigo)"></span>⚡ Wayflo CRM</a>
+    <a href="#s5"><span class="nav-dot" style="background:var(--gold)"></span>☕ Thở Cà Phê</a>
+    <div class="nav-section">Investment</div>
+    <a href="#s6"><span class="nav-dot" style="background:var(--navy)"></span>Structure & Terms</a>
+    <a href="#s7"><span class="nav-dot" style="background:var(--green)"></span>10-Year Revenue Plan</a>
+    <a href="#s8"><span class="nav-dot" style="background:var(--coral)"></span>Use of Funds</a>
+    <div class="nav-section">Operations</div>
+    <a href="#s9"><span class="nav-dot" style="background:var(--text-light)"></span>Team Evolution</a>
+    <a href="#s10"><span class="nav-dot" style="background:var(--gold)"></span>Risk & Mitigation</a>
+    <a href="#s11"><span class="nav-dot" style="background:var(--coral)"></span>Investor CTA</a>
+  </nav>
+  <div class="sidebar-footer">🔒 Confidential — Tai Pham<br>theantadventures.com</div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ant">🐜</div>
+  <h1>The Ant Group</h1>
+  <div class="hero-tagline">"Building Vietnam's most authentic travel & lifestyle ecosystem"</div>
+  <div class="hero-meta">
+    <span class="pill pill-glass">Founder: Tai Pham</span>
+    <span class="pill pill-glass">3 Projects · 1 Vision</span>
+    <span class="pill pill-coral">Raising 3.5B VND · ~$140K USD</span>
+    <span class="pill pill-gold">10-Year Target: $13M+</span>
+    <span class="pill pill-glass">🔒 Confidential · May 2026</span>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ==================== S1: ECOSYSTEM ==================== -->
+<div class="section" id="s1">
+  <div class="sec-head">
+    <div class="sec-num">1</div>
+    <div class="sec-title">The Ant Ecosystem — 3 Projects, 1 Connected Vision</div>
+  </div>
+
+  <div class="highlight navy" style="margin-bottom:2rem">
+    <p>The Ant Group is not three separate bets. It is one <strong>integrated ecosystem</strong> — where a luxury travel company generates the real-world data that builds a SaaS product, and a mindful café brand creates the cultural identity that defines both. Each project reinforces the others. Every dollar of value compounds across the group.</p>
+  </div>
+
+  <!-- 3 Project Summary Cards -->
+  <div class="proj-cards">
+    <div class="proj-card">
+      <div class="proj-card-head ant">
+        <div class="proj-card-icon">🌿</div>
+        <div class="proj-card-name">The Ant Adventures</div>
+        <div class="proj-card-cat">Luxury Inbound Travel · Vietnam</div>
+      </div>
+      <div class="proj-card-body">
+        <div class="proj-stat"><span class="proj-stat-label">Stage</span><span class="proj-stat-val" style="color:var(--green)">● Live & Revenue</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">Revenue (4mo)</span><span class="proj-stat-val">$6,213 · 51% margin</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">Price point</span><span class="proj-stat-val">$800–$1,500+/pax/day</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">2026 target</span><span class="proj-stat-val">$30K–$50K</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">2035 target</span><span class="proj-stat-val">$10M</span></div>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-card-head wayflo">
+        <div class="proj-card-icon">⚡</div>
+        <div class="proj-card-name">Wayflo CRM</div>
+        <div class="proj-card-cat">Tourism SaaS + Guest App</div>
+      </div>
+      <div class="proj-card-body">
+        <div class="proj-stat"><span class="proj-stat-label">Stage</span><span class="proj-stat-val" style="color:var(--indigo)">● Early Build</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">First customer</span><span class="proj-stat-val">The Ant Adventures</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">Market</span><span class="proj-stat-val">VN + SEA tour operators</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">External launch</span><span class="proj-stat-val">2027</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">2035 target</span><span class="proj-stat-val">$1M+ ARR</span></div>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-card-head tho">
+        <div class="proj-card-icon">☕</div>
+        <div class="proj-card-name">Thở Cà Phê</div>
+        <div class="proj-card-cat">Lifestyle Coffee · Mekong Delta</div>
+      </div>
+      <div class="proj-card-body">
+        <div class="proj-stat"><span class="proj-stat-label">Stage</span><span class="proj-stat-val" style="color:var(--gold-dark)">● Concept + Planning</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">First opening</span><span class="proj-stat-val">Feb 2027 · Long Xuyen</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">Model</span><span class="proj-stat-val">Company-owned chain</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">2030 target</span><span class="proj-stat-val">8–10 locations</span></div>
+        <div class="proj-stat"><span class="proj-stat-label">2035 target</span><span class="proj-stat-val">20+ · $2M revenue</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How they connect -->
+  <h3 style="font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:1rem">How the 3 projects power each other</h3>
+  <div class="connection-row">
+    <div class="conn-card">
+      <div class="conn-from">The Ant Adventures →</div>
+      <div class="conn-title">Powers Wayflo</div>
+      <div class="conn-desc">Ant Adventures is Wayflo's first real-world customer. Every operational process — quoting, booking, guest comms — becomes a feature. The Ant Adventures gives Wayflo credibility when selling to other operators.</div>
+    </div>
+    <div class="conn-card wayflo">
+      <div class="conn-from">Wayflo →</div>
+      <div class="conn-title">Scales The Ant & the Industry</div>
+      <div class="conn-desc">A 10-day Vietnam tour designed in 30 minutes. Wayflo multiplies Ant Adventures' output capacity — and when sold to 50+ other operators, creates a recurring revenue stream that is independent of tour seasonality.</div>
+    </div>
+    <div class="conn-card tho">
+      <div class="conn-from">Thở Cà Phê →</div>
+      <div class="conn-title">Anchors the Lifestyle Brand</div>
+      <div class="conn-desc">Thở is where the Ant Adventures philosophy becomes physical — a place you can touch, smell, and sit in. Mekong Delta guests from The Ant Adventures will stop at Thở. Thở guests discover The Ant Adventures. The brand loop closes.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== S2: FOUNDER ==================== -->
+<div class="section" id="s2">
+  <div class="sec-head">
+    <div class="sec-num">2</div>
+    <div class="sec-title">The Co-Founders</div>
+  </div>
+
+  <div class="highlight navy" style="margin-bottom:1.75rem">
+    <p>The Ant Group is led by two co-founders whose skills are deliberately complementary: <strong>Phuc Vo</strong> brings 15 years of deep cultural and product expertise — the heart of the brand. <strong>Tai Pham</strong> brings 10 years of operational and systems leadership — the engine behind the growth. Neither could build this alone.</p>
+  </div>
+
+  <!-- TWO FOUNDER CARDS SIDE BY SIDE -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem">
+
+    <!-- PHUC VO -->
+    <div class="founder-card" style="border-top-color:var(--green)">
+      <div class="founder-head">
+        <div class="founder-av" style="background:linear-gradient(135deg,var(--green-light),var(--green));color:#fff">PV</div>
+        <div>
+          <div class="founder-name">Phuc Vo</div>
+          <div class="founder-title">Co-Founder & CEO — The Ant Adventures &nbsp;·&nbsp; Ho Chi Minh City</div>
+        </div>
+      </div>
+      <div class="highlight" style="margin-bottom:1.1rem;background:var(--green-light);border-left-color:var(--green)">
+        <p>Phuc is the cultural soul of The Ant Adventures — a <strong>15-year inbound travel veteran</strong> whose deep local roots in Tra Vinh and personal relationships with guides, suppliers, and communities across Vietnam create experiences that no catalog company can replicate.</p>
+      </div>
+      <div class="founder-timeline">
+        <div class="ftl-item">
+          <div class="ftl-year">2009–2024</div>
+          <div class="ftl-desc"><strong>Professional inbound guide.</strong> Built a 100-guide team at TNK Travel. Visited 20+ countries. Developed unmatched supplier and community networks.</div>
+        </div>
+        <div class="ftl-item">
+          <div class="ftl-year">Community</div>
+          <div class="ftl-desc"><strong>Founded</strong> Saigon Morning Ride + Satori Travel — 6,000+ members. Proof of brand-building ability before the company existed.</div>
+        </div>
+        <div class="ftl-item">
+          <div class="ftl-year">2026 →</div>
+          <div class="ftl-desc"><strong>CEO, The Ant Adventures.</strong> Leads brand voice, product design, storytelling, and the "founder-present" guest experience — personally present on select journeys.</div>
+        </div>
+      </div>
+      <div class="metric-grid" style="margin:.85rem 0 0;grid-template-columns:1fr 1fr">
+        <div class="metric"><div class="metric-label">Guiding Experience</div><div class="metric-value">15+ yrs</div></div>
+        <div class="metric"><div class="metric-label">Team Built</div><div class="metric-value">100 guides</div></div>
+      </div>
+      <div class="founder-quote" style="margin-top:1rem">
+        "We don't sell tours. We deliver a genuine experience guests will talk about for the rest of their lives."
+        <div style="margin-top:.5rem;font-size:12px;opacity:.6;font-style:normal">— Phuc Vo</div>
+      </div>
+    </div>
+
+    <!-- TAI PHAM -->
+    <div class="founder-card" style="border-top-color:var(--coral)">
+      <div class="founder-head">
+        <div class="founder-av">TP</div>
+        <div>
+          <div class="founder-name">Tai Pham</div>
+          <div class="founder-title">Co-Founder & Head of Sales — The Ant Adventures &nbsp;·&nbsp; Founder, The Ant Group &nbsp;·&nbsp; Long Xuyen, An Giang</div>
+        </div>
+      </div>
+      <div class="highlight" style="margin-bottom:1.1rem">
+        <p>Tai is the operational and systems brain of the group — a <strong>decade-tested operator</strong> who has already built and scaled teams in Vietnam's competitive tourism industry, and is now channelling that experience into three connected ventures.</p>
+      </div>
+      <div class="founder-timeline">
+        <div class="ftl-item">
+          <div class="ftl-year">2014–2024</div>
+          <div class="ftl-desc"><strong>Guide → Branch Director</strong> at In Country Tours. Grew Long Xuyen branch from 3 to 17 people. Built a self-running operational model.</div>
+        </div>
+        <div class="ftl-item">
+          <div class="ftl-year">2024–2025</div>
+          <div class="ftl-desc"><strong>Systems architect.</strong> Designed pricing frameworks, CRM logic, and SOPs for luxury tourism. Began building what would become Wayflo.</div>
+        </div>
+        <div class="ftl-item">
+          <div class="ftl-year">2026 →</div>
+          <div class="ftl-desc"><strong>Co-founded The Ant Adventures</strong> with Phuc Vo. First revenue in month 1. 8 tours, 51% margin in 4 months. Now building the full Ant Group.</div>
+        </div>
+      </div>
+      <div class="metric-grid" style="margin:.85rem 0 0;grid-template-columns:1fr 1fr">
+        <div class="metric"><div class="metric-label">Tourism Experience</div><div class="metric-value">10+ yrs</div></div>
+        <div class="metric"><div class="metric-label">Team Built</div><div class="metric-value">3 → 17</div></div>
+      </div>
+      <div class="founder-quote" style="margin-top:1rem">
+        "I don't build companies. I build systems that outlast me — because the best operation is one that runs without you in the room."
+        <div style="margin-top:.5rem;font-size:12px;opacity:.6;font-style:normal">— Tai Pham</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RESPONSIVE FIX FOR FOUNDER GRID -->
+  <style>
+  @media(max-width:768px){
+    #s2 > div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+  }
+  </style>
+</div>
+
+<!-- ==================== S3: THE ANT ADVENTURES ==================== -->
+<div class="section" id="s3">
+  <div class="sec-head">
+    <div class="sec-icon">🌿</div>
+    <div class="sec-title">Project 1 — The Ant Adventures</div>
+  </div>
+  <div class="badge badge-green">● LIVE · Revenue Generating</div>
+  <div style="margin:1rem 0">
+    <div class="metric-grid">
+      <div class="metric dark"><div class="metric-label">Revenue (4 months)</div><div class="metric-value">$6,213</div><div class="metric-sub">Feb–May 2026</div></div>
+      <div class="metric"><div class="metric-label">Net Margin</div><div class="metric-value">51%</div><div class="metric-sub">8 tours completed</div></div>
+      <div class="metric"><div class="metric-label">Price Point</div><div class="metric-value">$800–$1,500+</div><div class="metric-sub">Per person per day</div></div>
+      <div class="metric coral"><div class="metric-label">Year 1 Target</div><div class="metric-value">$30K–$50K</div><div class="metric-sub">10+ confirmed bookings</div></div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>What</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Market</strong></td><td>100% international inbound — UHNW families, couples, small groups from USA, Canada, Europe, Australia</td></tr>
+        <tr><td><strong>Brand DNA</strong></td><td>Bespoke · Depth · Discretion — Quiet Luxury. No two journeys identical.</td></tr>
+        <tr><td><strong>Regions</strong></td><td>North (Hanoi, Ha Long, Ninh Binh, Sapa, Ha Giang) · Central (Hue, Hoi An, Phong Nha, Quy Nhon) · South (HCMC, Mekong, Phu Quoc, Con Dao)</td></tr>
+        <tr><td><strong>B2B pipeline</strong></td><td>Make Your Asia · Ms. Charu (expat community) · Adi (Long Xuyen) · Target international agents from 2027 (Virtuoso Travel Week, Las Vegas)</td></tr>
+        <tr><td><strong>Website launch</strong></td><td>July 2026 — after North + Central inspection trip (13–25 July)</td></tr>
+        <tr><td><strong>2027 milestone</strong></td><td>First US travel fair (Virtuoso Travel Week, Las Vegas) — target 20–30 luxury agents</td></tr>
+        <tr><td><strong>2035 target</strong></td><td>$10M revenue · 50 staff · Vietnam + Laos + Cambodia</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight" style="margin-top:1rem">
+    <p><strong>Why The Ant Adventures wins:</strong> Three unclaimed white spaces in the Vietnam luxury market — (1) "Founder-present" luxury where Phuc himself travels with guests from Tra Vinh; (2) South Vietnam + Mekong at UHNW level, virtually untouched; (3) "No groups, no catalog" — Abercrombie & Kent still runs 14–20 person group tours. We don't.</p>
+  </div>
+</div>
+
+<!-- ==================== S4: WAYFLO ==================== -->
+<div class="section" id="s4">
+  <div class="sec-head">
+    <div class="sec-icon">⚡</div>
+    <div class="sec-title">Project 2 — Wayflo CRM + Guest App</div>
+  </div>
+  <div class="badge badge-indigo">● Early Build · Internal Use 2026 · Sell Externally 2027</div>
+  <div style="margin:1rem 0">
+    <div class="metric-grid">
+      <div class="metric indigo"><div class="metric-label">Stage</div><div class="metric-value">Early Build</div><div class="metric-sub">Running at Ant Adventures</div></div>
+      <div class="metric indigo"><div class="metric-label">Target Market</div><div class="metric-value">500–1,000</div><div class="metric-sub">Vietnam tour operators</div></div>
+      <div class="metric indigo"><div class="metric-label">External Launch</div><div class="metric-value">2027</div><div class="metric-sub">First 5–10 paying clients</div></div>
+      <div class="metric indigo"><div class="metric-label">2035 ARR Target</div><div class="metric-value">$1M+</div><div class="metric-sub">SEA-wide distribution</div></div>
+    </div>
+  </div>
+
+  <div class="highlight indigo" style="margin-bottom:1.5rem">
+    <p><strong>The Wayflo insight:</strong> Vietnam has 500–1,000 inbound tour operators. Almost none have professional CRM or tour management software — they run on WhatsApp, Excel, and gut feeling. Wayflo is purpose-built for exactly this market, with The Ant Adventures as the living proof-of-concept.</p>
+  </div>
+
+  <h3 style="font-size:.95rem;font-weight:700;margin-bottom:.85rem;color:var(--indigo)">Product Modules</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th class="indigo">Module</th><th class="indigo">What it does</th><th class="indigo">Value</th></tr></thead>
+      <tbody>
+        <tr><td>🗺️ <strong>Tour Designer</strong></td><td>Build a full 10–15 day luxury itinerary in 30 minutes</td><td class="td-indigo">10× faster than manual</td></tr>
+        <tr><td>💰 <strong>Quote Calculator</strong></td><td>Instant tiered pricing by group size, season, service level</td><td class="td-indigo">Fewer pricing errors</td></tr>
+        <tr><td>📋 <strong>Lead CRM</strong></td><td>Score, qualify, follow-up pipeline with 30-point rubric</td><td class="td-indigo">Higher close rates</td></tr>
+        <tr><td>📎 <strong>Booking Manager</strong></td><td>Supplier confirmations, docs, tracking — all in one place</td><td class="td-indigo">Zero missed bookings</td></tr>
+        <tr><td>📱 <strong>Guest App</strong></td><td>Companion app for confirmed bookings — itinerary, updates, contact</td><td class="td-indigo">UHNW-level experience</td></tr>
+        <tr><td>📊 <strong>Analytics</strong></td><td>Revenue, margins, seasonality, team performance</td><td class="td-indigo">Real-time business health</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:.95rem;font-weight:700;margin:1.5rem 0 .85rem;color:var(--indigo)">Revenue Model</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th class="indigo">Tier</th><th class="indigo">Model</th><th class="indigo">Price</th><th class="indigo">Target Customer</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Starter</strong></td><td>Per-user SaaS monthly</td><td class="td-indigo">$50–$80/user/month</td><td>1–3 person operator</td></tr>
+        <tr><td><strong>Business</strong></td><td>Company license (all users, annual)</td><td class="td-indigo">$500–$1,200/year</td><td>5–15 person agency</td></tr>
+        <tr><td><strong>Enterprise</strong></td><td>Full setup + custom + annual renewal</td><td class="td-indigo">$1,500–$3,000/year</td><td>Established DMC/operator</td></tr>
+        <tr><td><strong>App Add-on</strong></td><td>Guest App white-label per operator</td><td class="td-indigo">$200–$500/year</td><td>All tiers</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight indigo" style="margin-top:1rem">
+    <p><strong>SaaS advantage:</strong> Once built, Wayflo has near-zero marginal cost per new operator. At 100 Business-tier clients, annual recurring revenue exceeds $60,000 — with no additional tourism staff needed. This creates a <strong>revenue stream that is not correlated with tourism seasonality.</strong></p>
+  </div>
+</div>
+
+<!-- ==================== S5: THO CA PHE ==================== -->
+<div class="section" id="s5">
+  <div class="sec-head">
+    <div class="sec-icon">☕</div>
+    <div class="sec-title">Project 3 — Thở Cà Phê</div>
+  </div>
+  <div class="badge badge-gold">● Concept Stage · Opening Feb 2027 · Long Xuyen</div>
+  <div style="margin:1rem 0">
+    <div class="metric-grid">
+      <div class="metric gold"><div class="metric-label">First Opening</div><div class="metric-value">Feb 2027</div><div class="metric-sub">Long Xuyen, An Giang</div></div>
+      <div class="metric gold"><div class="metric-label">2028 Target</div><div class="metric-value">3 locations</div><div class="metric-sub">Mekong Delta</div></div>
+      <div class="metric gold"><div class="metric-label">2030 Target</div><div class="metric-value">8–10 locations</div><div class="metric-sub">Company-owned chain</div></div>
+      <div class="metric gold"><div class="metric-label">Rev/Location</div><div class="metric-value">$50K–$100K</div><div class="metric-sub">Annual (per site)</div></div>
+    </div>
+  </div>
+
+  <!-- Brand philosophy block -->
+  <div style="background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#fff;border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem;text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:.5rem">☕</div>
+    <div style="font-size:1.5rem;font-weight:800;margin-bottom:.5rem;letter-spacing:-0.5px">Thở</div>
+    <div style="font-size:1rem;opacity:.9;font-style:italic;margin-bottom:.75rem">"A place to breathe — where coffee is a ritual, not a rush."</div>
+    <div style="font-size:13px;opacity:.8;max-width:500px;margin:0 auto;line-height:1.7">In an era of speed and noise, Thở is the counter-movement. It is a philosophy made physical — a space that teaches you to slow down, to taste, to be present. The Mekong Delta's answer to the modern world.</div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th class="gold">What</th><th class="gold">Detail</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Concept</strong></td><td>Slow-life lifestyle café — coffee as a ritual, not a product. Anti-rush culture rooted in Mekong Delta identity.</td></tr>
+        <tr><td><strong>Differentiation</strong></td><td>Not just a café brand — a philosophy of living. Thở means to breathe. The experience, the design, the music, the pace are all intentional.</td></tr>
+        <tr><td><strong>Location strategy</strong></td><td>Long Xuyen first (Tai's home base), then An Giang province towns, then key Mekong Delta cities (Can Tho, My Tho, Vinh Long, Chau Doc)</td></tr>
+        <tr><td><strong>Model</strong></td><td>Company-owned locations — Tai controls quality and brand consistency as the chain grows</td></tr>
+        <tr><td><strong>Tourism crossover</strong></td><td>The Ant Adventures Mekong itineraries include a Thở stop — guests from $800+/day tours become Thở's premium word-of-mouth</td></tr>
+        <tr><td><strong>Team</strong></td><td>Tai Pham — sole founder and operator · Operationally and financially separate from The Ant Adventures</td></tr>
+        <tr><td><strong>Wayflo integration</strong></td><td>Thở's loyalty program and customer database managed through Wayflo's CRM module — proving the product in a second vertical</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== S6: INVESTMENT STRUCTURE ==================== -->
+<div class="section" id="s6">
+  <div class="sec-head">
+    <div class="sec-num">6</div>
+    <div class="sec-title">Investment Structure — The Ant Group</div>
+  </div>
+
+  <div class="holding-diagram">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div class="holding-investor">🤝 Your Investment → The Ant Group (HoldCo)</div>
+      <div class="holding-arrow-down">↓</div>
+      <div class="holding-box">🐜 The Ant Group — Holding Company</div>
+      <div class="holding-arrow-down">↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓</div>
+    </div>
+    <div class="holding-subs">
+      <div class="sub-box ant">
+        <span class="sub-pct">🌿</span>
+        <span class="sub-name">The Ant Adventures<br><small style="opacity:.8;font-size:11px">Luxury Travel</small></span>
+      </div>
+      <div class="sub-box wayflo">
+        <span class="sub-pct">⚡</span>
+        <span class="sub-name">Wayflo CRM<br><small style="opacity:.8;font-size:11px">Tourism SaaS</small></span>
+      </div>
+      <div class="sub-box tho">
+        <span class="sub-pct">☕</span>
+        <span class="sub-name">Thở Cà Phê<br><small style="opacity:.8;font-size:11px">Lifestyle F&B</small></span>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:12.5px;color:var(--text-muted);margin-top:1.25rem">One investment. Three assets. All compound growth goes to the same cap table.</div>
+  </div>
+
+  <!-- Investment terms -->
+  <div style="background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;text-align:center">
+    <div style="font-size:12px;opacity:.75;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.25rem">Total Investment Sought</div>
+    <div style="font-size:3rem;font-weight:800;margin-bottom:.25rem">3.5B VND</div>
+    <div style="opacity:.8;font-size:.95rem">~$140,000 USD · Pre-money valuation: 15B VND (~$600K)</div>
+    <div style="display:flex;justify-content:center;gap:2.5rem;margin-top:1.5rem;flex-wrap:wrap">
+      <div style="text-align:center"><div style="font-size:1.4rem;font-weight:700">12–15%</div><div style="font-size:12px;opacity:.75">Investor Equity</div></div>
+      <div style="text-align:center"><div style="font-size:1.4rem;font-weight:700">8%/yr</div><div style="font-size:12px;opacity:.75">Convertible Loan Rate</div></div>
+      <div style="text-align:center"><div style="font-size:1.4rem;font-weight:700">&gt;85%</div><div style="font-size:12px;opacity:.75">Founders Control</div></div>
+      <div style="text-align:center"><div style="font-size:1.4rem;font-weight:700">36 mo</div><div style="font-size:12px;opacity:.75">Minimum Lock-in</div></div>
+    </div>
+  </div>
+
+  <!-- Fund allocation -->
+  <h3 style="font-size:.95rem;font-weight:700;margin-bottom:.85rem">How the 3.5B is allocated</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Project</th><th>Allocation</th><th>USD</th><th>Primary Use</th></tr></thead>
+      <tbody>
+        <tr><td>🌿 <strong>The Ant Adventures</strong></td><td class="td-g">2,000M VND (57%)</td><td>~$80,000</td><td>Team salaries post-investment · Website launch · US Travel Fair 2027 prep · Working capital</td></tr>
+        <tr><td>⚡ <strong>Wayflo CRM</strong></td><td class="td-indigo">750M VND (21%)</td><td>~$30,000</td><td>Developer hire or agency · Server & hosting · Phase 2 product build · First 10 client onboarding</td></tr>
+        <tr><td>☕ <strong>Thở Cà Phê</strong></td><td class="td-gold">600M VND (17%)</td><td>~$24,000</td><td>First location fit-out · Equipment · Brand design · 6-month operating buffer</td></tr>
+        <tr><td>🏢 <strong>Group Overhead</strong></td><td style="color:var(--text-muted)">150M VND (4%)</td><td>~$6,000</td><td>Holding company legal setup · Shared accounting · Group tools</td></tr>
+        <tr style="background:var(--green-light)"><td><strong>TOTAL</strong></td><td class="td-g"><strong>3,500M VND</strong></td><td><strong>~$140,000</strong></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Cap table -->
+  <h3 style="font-size:.95rem;font-weight:700;margin:1.5rem 0 .85rem">Cap Table — Before & After</h3>
+  <div class="captable">
+    <div class="ct-block">
+      <div class="ct-title">Before Investment</div>
+      <div class="ct-bar-row">
+        <div class="ct-bar-label"><span class="ct-bar-name">Tai Pham</span><span class="ct-bar-pct">57.1%</span></div>
+        <div class="ct-bar"><div class="ct-bar-fill" style="width:57.1%;background:var(--coral)"></div></div>
+      </div>
+      <div class="ct-bar-row">
+        <div class="ct-bar-label"><span class="ct-bar-name">Phuc Vo</span><span class="ct-bar-pct">42.9%</span></div>
+        <div class="ct-bar"><div class="ct-bar-fill" style="width:42.9%;background:var(--green)"></div></div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:.75rem">Total: 1.05B VND founders' capital</div>
+    </div>
+    <div class="ct-block">
+      <div class="ct-title">After Investment (3.5B scenario)</div>
+      <div class="ct-bar-row">
+        <div class="ct-bar-label"><span class="ct-bar-name">Tai Pham</span><span class="ct-bar-pct coral">~48%</span></div>
+        <div class="ct-bar"><div class="ct-bar-fill" style="width:48%;background:var(--coral)"></div></div>
+      </div>
+      <div class="ct-bar-row">
+        <div class="ct-bar-label"><span class="ct-bar-name">Phuc Vo</span><span class="ct-bar-pct">~37%</span></div>
+        <div class="ct-bar"><div class="ct-bar-fill" style="width:37%;background:var(--green)"></div></div>
+      </div>
+      <div class="ct-bar-row">
+        <div class="ct-bar-label"><span class="ct-bar-name">Investor</span><span class="ct-bar-pct indigo">~15%</span></div>
+        <div class="ct-bar"><div class="ct-bar-fill" style="width:15%;background:var(--indigo)"></div></div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:.75rem">Post-money: ~18.5B VND total value</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== S7: 10-YEAR REVENUE PLAN ==================== -->
+<div class="section" id="s7">
+  <div class="sec-head">
+    <div class="sec-num">7</div>
+    <div class="sec-title">10-Year Revenue Plan — The Full Ecosystem</div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-wrap">
+      <div class="chart-title">Combined Revenue by Project (USD, thousands)</div>
+      <canvas id="revenueChart" height="280"></canvas>
+      <div class="chart-sub">Stacked by project. All figures in USD thousands. Conservative projections based on Vietnam luxury market growth rates.</div>
+    </div>
+    <div>
+      <div class="metric-grid" style="grid-template-columns:1fr;gap:10px">
+        <div class="metric"><div class="metric-label">2026 Combined</div><div class="metric-value">$40K</div><div class="metric-sub">Ant Adventures only</div></div>
+        <div class="metric indigo"><div class="metric-label">2028 Combined</div><div class="metric-value">$990K</div><div class="metric-sub">All 3 active</div></div>
+        <div class="metric gold"><div class="metric-label">2030 Combined</div><div class="metric-value">$3.6M</div><div class="metric-sub">Full velocity</div></div>
+        <div class="metric dark"><div class="metric-label">2035 Combined</div><div class="metric-value">$13.3M</div><div class="metric-sub">Market leader</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10-Year roadmap table -->
+  <div class="tbl-wrap" style="margin-top:1.5rem">
+    <table class="roadmap-table">
+      <thead><tr><th>Year</th><th>Phase</th><th>🌿 Ant Adventures</th><th>⚡ Wayflo</th><th>☕ Thở</th><th>Total</th><th>Key Milestone</th></tr></thead>
+      <tbody>
+        <tr><td class="year-col">2026</td><td><span class="phase-badge pb-1">P1</span></td><td class="td-g">$30K–$50K</td><td style="color:var(--text-muted)">—</td><td style="color:var(--text-muted)">—</td><td class="td-bold">$40K</td><td>Website live · 10 bookings · Wayflo internal</td></tr>
+        <tr><td class="year-col">2027</td><td><span class="phase-badge pb-1">P1</span></td><td class="td-g">$150K–$250K</td><td class="td-indigo">$5K–$15K</td><td class="td-gold">$20K–$40K</td><td class="td-bold">$235K</td><td>US Travel Fair · Wayflo first clients · Thở opens</td></tr>
+        <tr><td class="year-col">2028</td><td><span class="phase-badge pb-1">P1</span></td><td class="td-g">$700K–$1M</td><td class="td-indigo">$30K–$50K</td><td class="td-gold">$80K–$120K</td><td class="td-bold">$990K</td><td>First Virtuoso agent · Wayflo 20+ clients · 3 Thở</td></tr>
+        <tr><td class="year-col">2029</td><td><span class="phase-badge pb-2">P2</span></td><td class="td-g">$1.5M–$2M</td><td class="td-indigo">$80K–$120K</td><td class="td-gold">$150K–$250K</td><td class="td-bold">$2.05M</td><td>Laos launch · Wayflo SEA expansion · 5 Thở</td></tr>
+        <tr><td class="year-col">2030</td><td><span class="phase-badge pb-2">P2</span></td><td class="td-g">$2.5M–$3.5M</td><td class="td-indigo">$180K–$220K</td><td class="td-gold">$350K–$450K</td><td class="td-bold">$3.6M</td><td>Cambodia launch · Wayflo 100+ clients · 8–10 Thở</td></tr>
+        <tr><td class="year-col">2031–32</td><td><span class="phase-badge pb-2">P2</span></td><td class="td-g">$4M–$6M</td><td class="td-indigo">$350K–$500K</td><td class="td-gold">$600K–$900K</td><td class="td-bold">$6.4M</td><td>Private Members Club concept · Wayflo Thailand</td></tr>
+        <tr><td class="year-col">2033–34</td><td><span class="phase-badge pb-3">P3</span></td><td class="td-g">$7M–$8.5M</td><td class="td-indigo">$700K–$900K</td><td class="td-gold">$1.2M–$1.8M</td><td class="td-bold">$9M–$11M</td><td>Legacy Journeys launch · Thở 15+ locations</td></tr>
+        <tr style="background:var(--green-light)"><td class="year-col"><strong>2035 🎯</strong></td><td><span class="phase-badge pb-3">P3</span></td><td class="td-g"><strong>$10M</strong></td><td class="td-indigo"><strong>$1M+</strong></td><td class="td-gold"><strong>$2M+</strong></td><td class="td-bold" style="font-size:1rem"><strong>$13M+</strong></td><td>The Ant Group = SEA's luxury travel ecosystem leader</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== S8: USE OF FUNDS ==================== -->
+<div class="section" id="s8">
+  <div class="sec-head">
+    <div class="sec-num">8</div>
+    <div class="sec-title">Use of Funds — 3.5B VND</div>
+  </div>
+  <div class="chart-row">
+    <div class="chart-wrap">
+      <div class="chart-title">Investment Allocation by Project</div>
+      <canvas id="fundsChart" height="260"></canvas>
+    </div>
+    <div>
+      <div class="highlight" style="margin-bottom:.75rem">
+        <p><strong>Investment logic:</strong> The Ant Adventures gets the majority because it is already generating revenue and has the clearest path to $1M. Wayflo and Thở get enough to reach their first meaningful milestone — not more.</p>
+      </div>
+      <div class="info-rows">
+        <div class="info-row"><span class="ir-label">🌿 Ant Adventures</span><span class="ir-val td-g">2,000M · 57%</span></div>
+        <div class="info-row"><span class="ir-label">⚡ Wayflo CRM</span><span class="ir-val td-indigo">750M · 21%</span></div>
+        <div class="info-row"><span class="ir-label">☕ Thở Cà Phê</span><span class="ir-val td-gold">600M · 17%</span></div>
+        <div class="info-row"><span class="ir-label">🏢 Group overhead</span><span class="ir-val">150M · 4%</span></div>
+        <div class="info-row"><span class="ir-label"><strong>TOTAL</strong></span><span class="ir-val td-g"><strong>3,500M VND</strong></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== S9: TEAM ==================== -->
+<div class="section" id="s9">
+  <div class="sec-head">
+    <div class="sec-num">9</div>
+    <div class="sec-title">Team Evolution — How We Scale</div>
+  </div>
+  <div class="highlight navy" style="margin-bottom:1.5rem">
+    <p><strong>The scaling strategy:</strong> In Year 1, Tai wears all hats. From Year 2, each project gets a dedicated operational lead. By Year 3, Tai transitions to Group CEO — setting strategy, not running daily ops. This is how three businesses scale without one person burning out.</p>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Period</th><th>🌿 Ant Adventures</th><th>⚡ Wayflo</th><th>☕ Thở</th><th>Tai's role</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>2026</strong><br><small style="color:var(--text-muted)">Now</small></td>
+          <td>Phuc (CEO) · Tai (Sales) · Hao (Ops) · Tran (Product)</td>
+          <td>Tai builds solo (internal tool)</td>
+          <td>Planning only</td>
+          <td>Head of Sales + CRM builder</td>
+        </tr>
+        <tr>
+          <td><strong>2027</strong><br><small style="color:var(--text-muted)">Year 2</small></td>
+          <td>+3 Sales Execs · +Accountant · +Marketing Exec · LX office opens</td>
+          <td>+1 Developer · First 10 external clients</td>
+          <td>Location manager hired · First location opens</td>
+          <td>Coordinating all 3 · Still heavy in Ant + Wayflo</td>
+        </tr>
+        <tr>
+          <td><strong>2028</strong><br><small style="color:var(--text-muted)">Year 3</small></td>
+          <td>Hao becomes Ops Director · Tai steps back from daily sales</td>
+          <td>Wayflo Product Manager hired · 20+ clients</td>
+          <td>2nd + 3rd locations · Operations Manager hired</td>
+          <td>Group CEO role begins · Quarterly reviews per project</td>
+        </tr>
+        <tr>
+          <td><strong>2030+</strong><br><small style="color:var(--text-muted)">Scale</small></td>
+          <td>General Manager hired · Tai is a board-level Ant Adventures representative</td>
+          <td>CTO/Product Lead · SEA sales team</td>
+          <td>Regional Operations Director · Chain management system</td>
+          <td>Full Group CEO · Strategy + investor relations only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== S10: RISK ==================== -->
+<div class="section" id="s10">
+  <div class="sec-head">
+    <div class="sec-num">10</div>
+    <div class="sec-title">Risk Analysis & Mitigation</div>
+  </div>
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-head"><div class="risk-title">⚡ Tai spreading too thin</div><span class="risk-level rl-high">High · Year 1</span></div>
+      <div class="risk-body">Three projects with one founder as the key person across all of them creates operational risk if any project hits a critical moment simultaneously.</div>
+      <div class="risk-mit">✓ Mitigation: Hao Duong takes Ant Adventures ops leadership by Q3 2026. Wayflo gets a developer hire in 2027. Thở has a dedicated location manager from day one. Tai moves to Group CEO role by Year 3.</div>
+    </div>
+    <div class="risk-card medium">
+      <div class="risk-head"><div class="risk-title">🌊 Tourism seasonality</div><span class="risk-level rl-med">Medium</span></div>
+      <div class="risk-body">Vietnam inbound tourism peaks Oct–Apr and dips May–Sep. High variance in monthly revenue creates cash flow pressure in low season.</div>
+      <div class="risk-mit">✓ Mitigation: Wayflo SaaS revenue is non-seasonal. Thở F&B is daily revenue regardless of season. Low-season South Vietnam products (Mekong, Con Dao) fill the Ant Adventures gap.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-head"><div class="risk-title">📡 B2B concentration risk</div><span class="risk-level rl-high">High · Year 1</span></div>
+      <div class="risk-body">Year 1, The Ant Adventures is reliant on 3 core B2B partners (Charu, Make Your Asia, Adi). Loss of one partner could impact 30–40% of bookings.</div>
+      <div class="risk-mit">✓ Mitigation: No single agent to exceed 35% of revenue. Website launch (July 2026) activates direct booking channel. US Travel Fair 2027 diversifies to international agents.</div>
+    </div>
+    <div class="risk-card medium">
+      <div class="risk-head"><div class="risk-title">⚡ Wayflo adoption risk</div><span class="risk-level rl-med">Medium</span></div>
+      <div class="risk-body">Vietnam tourism operators are often not tech-savvy buyers. Convincing them to pay for CRM software requires significant education and proof.</div>
+      <div class="risk-mit">✓ Mitigation: The Ant Adventures is the living case study — we use Wayflo ourselves. Real testimonials, not sales pitch. Start with operators in our existing network (Make Your Asia, Adi, etc.).</div>
+    </div>
+    <div class="risk-card low">
+      <div class="risk-head"><div class="risk-title">☕ Thở brand dilution</div><span class="risk-level rl-low">Low · Managed</span></div>
+      <div class="risk-body">Expanding too fast without maintaining quality could dilute the "ritual, not a rush" brand promise that differentiates Thở from standard cà phê.</div>
+      <div class="risk-mit">✓ Mitigation: Company-owned model (not franchise) means Tai controls every location. Deliberate, slow expansion — 1 location per year until the system is proven.</div>
+    </div>
+    <div class="risk-card low">
+      <div class="risk-head"><div class="risk-title">💱 Currency & macro risk</div><span class="risk-level rl-low">Low</span></div>
+      <div class="risk-body">USD-denominated tourism revenue with VND costs creates some exposure. Global economic downturns could reduce luxury travel spend.</div>
+      <div class="risk-mit">✓ Mitigation: Thở and Wayflo are VND-based businesses providing natural currency diversification. UHNW segment is the most resilient to economic cycles.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== S11: INVESTOR CTA ==================== -->
+<div class="section" id="s11">
+  <div class="sec-head">
+    <div class="sec-num">11</div>
+    <div class="sec-title">The Investment Opportunity</div>
+  </div>
+
+  <div class="highlight navy" style="margin-bottom:1.5rem">
+    <p>This is not a request for help. <strong>The Ant Adventures is already profitable and operating.</strong> This is an invitation to participate in the scaling of a three-part ecosystem at exactly the right moment — before the website goes live, before Wayflo launches externally, and before the first Thở opens. The momentum is already here. The question is whether you want to be part of what it becomes.</p>
+  </div>
+
+  <div class="tbl-wrap" style="margin-bottom:1.5rem">
+    <table>
+      <thead><tr><th>What you get</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Equity stake</strong></td><td>12–15% of The Ant Group holding company — exposure to all 3 revenue streams</td></tr>
+        <tr><td><strong>Quarterly reporting</strong></td><td>Full financial transparency — revenue, margins, pipeline, and milestones per project, every quarter from Tai</td></tr>
+        <tr><td><strong>No operational interference</strong></td><td>You own the upside; Tai and Phuc run the business. No day-to-day involvement required.</td></tr>
+        <tr><td><strong>Right of First Refusal</strong></td><td>If either founder sells shares, you have 30 days' priority purchase right</td></tr>
+        <tr><td><strong>Minimum lock-in</strong></td><td>36 months — aligned with the time needed to see real returns from all 3 projects</td></tr>
+        <tr><td><strong>Exit potential</strong></td><td>At $5M combined revenue (est. 2030), strategic buyer value conservatively 3–5× revenue = $15M–$25M. Your 15% = $2.25M–$3.75M on a $140K investment.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cta-box">
+    <h2>🐜 Join The Ant Group</h2>
+    <p>3.5 billion VND. Three projects. One founder with 10 years of operational proof. A 10-year plan that is specific, honest, and already in motion.</p>
+    <div class="cta-asks">
+      <div class="cta-ask">
+        <div class="cta-ask-num">3.5B VND</div>
+        <div class="cta-ask-label">~$140,000 USD total investment</div>
+      </div>
+      <div class="cta-ask">
+        <div class="cta-ask-num">12–15%</div>
+        <div class="cta-ask-label">Equity in The Ant Group</div>
+      </div>
+      <div class="cta-ask">
+        <div class="cta-ask-num">$13M+</div>
+        <div class="cta-ask-label">Combined 10-year revenue target</div>
+      </div>
+    </div>
+    <div class="cta-contact">
+      <a href="mailto:taipham@theantadventures.com">📧 taipham@theantadventures.com</a>
+      <a href="https://theantadventures.com" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3)">🌐 theantadventures.com</a>
+    </div>
+    <div style="margin-top:1.5rem;font-size:12px;opacity:.5">The Ant Group · 748 Truong Sa, District 3, Ho Chi Minh City · Version 1 · May 2026 · Confidential</div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /main -->
+
+<!-- CHARTS -->
+<script>
+// Revenue Chart
+const years = ['2026','2027','2028','2029','2030','2031-32','2033-34','2035'];
+const antData = [40, 200, 850, 1750, 3000, 5000, 7750, 10000];
+const wayfloData = [0, 10, 40, 100, 200, 425, 800, 1100];
+const thoData = [0, 30, 100, 200, 400, 750, 1500, 2200];
+
+const ctx1 = document.getElementById('revenueChart').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: [
+      {label: '🌿 The Ant Adventures', data: antData, backgroundColor: '#2E7D52', borderRadius: 4},
+      {label: '⚡ Wayflo CRM', data: wayfloData, backgroundColor: '#4F46E5', borderRadius: 4},
+      {label: '☕ Thở Cà Phê', data: thoData, backgroundColor: '#C9973A', borderRadius: 4}
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {position: 'bottom', labels: {font: {size: 12}, padding: 16}},
+      tooltip: {callbacks: {label: ctx => ` ${ctx.dataset.label}: $${ctx.raw.toLocaleString()}K`}}
+    },
+    scales: {
+      x: {stacked: true, grid: {display: false}},
+      y: {stacked: true, grid: {color: '#f0eeea'}, ticks: {callback: v => '$' + (v >= 1000 ? (v/1000).toFixed(1) + 'M' : v + 'K')}}
+    }
+  }
+});
+
+// Funds Chart
+const ctx2 = document.getElementById('fundsChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'doughnut',
+  data: {
+    labels: ['🌿 Ant Adventures (57%)', '⚡ Wayflo CRM (21%)', '☕ Thở Cà Phê (17%)', '🏢 Group (4%)'],
+    datasets: [{
+      data: [2000, 750, 600, 150],
+      backgroundColor: ['#2E7D52', '#4F46E5', '#C9973A', '#b4b2a9'],
+      borderWidth: 3,
+      borderColor: '#fff',
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    cutout: '65%',
+    plugins: {
+      legend: {position: 'bottom', labels: {font: {size: 12}, padding: 14}},
+      tooltip: {callbacks: {label: ctx => ` ${ctx.label}: ${ctx.raw.toLocaleString()}M VND`}}
+    }
+  }
+});
+
+// Sidebar active state on scroll
+const sections = document.querySelectorAll('.section');
+const links = document.querySelectorAll('.sidebar-nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const id = e.target.id;
+      const match = document.querySelector(`.sidebar-nav a[href="#${id}"]`);
+      if(match) match.classList.add('active');
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
